@@ -1,0 +1,467 @@
+body {
+    font-family: 'Open Sans', sans-serif;
+    margin: 0;
+    background-color: #F5F5F5;
+}
+
+html {
+    box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: inherit;
+}
+
+*:focus {
+    outline: none;
+}
+
+*:focus-visible {
+    outline: 1px solid #9873FF;
+}
+
+h1, h2, h3, h4, h5, h6, p {
+    margin: 0;
+    padding: 0;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+img {
+    max-width: 100%;
+}
+
+.list-reset {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.btn-reset {
+    padding: 0;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+.container {
+    max-width: 1150px;
+    padding: 0;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+input::-webkit-input-placeholder {
+    color: #B0B0B0;
+    font-weight: 400;
+}
+input::-moz-placeholder {
+    color: #B0B0B0;
+    font-weight: 400;
+}
+/* ----------------------------------------------------------- */
+.header {
+    background-color: #fff;
+    padding: 20px;
+    display: flex;
+}
+
+.logo {
+    margin-right: 53px;
+}
+
+.search {
+    width: 581px;
+    border: 1px solid rgba(51, 51, 51, 0.2);
+    padding: 12px 16px;
+    color: #B0B0B0;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 19px;
+}
+
+.main {
+    padding: 40px 90px;
+}
+
+h1 {
+    font-weight: 700;
+    margin-bottom: 26px;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 40px;
+}
+
+.table thead tr th{
+    font-weight: 400;
+    color: #B0B0B0;
+    font-size: 12px;
+    line-height: 16px;
+    text-align: left;
+    padding-bottom: 8px;
+}
+
+tbody tr {
+    height: 60px;
+    background-color: #fff;
+    border-bottom: 2px solid #F5F5F5;
+}
+
+tbody tr th {
+    font-size: 14px;
+    color: #333;
+    text-align: left;
+}
+
+.id {
+    padding-left: 20px;
+}
+
+.client_id {
+    font-size: 12px;
+    line-height: 16px;
+    color: #B0B0B0;
+    font-weight: 400;
+    padding-left: 20px;
+}
+
+.client_full_name {
+    font-size: 14px;
+    line-height: 19px;
+    color: #333;
+    font-weight: 400;
+}
+
+.timing_create {
+    color: #B0B0B0;
+    font-weight: 400;
+}
+
+.client_do {
+    padding-right: 20px;
+}
+
+.group_button {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    line-height: 19px;
+    font-weight: 400;
+}
+
+.change_button span {
+    background-image: url("/img/edit.svg");
+    background-repeat: no-repeat;
+    background-position: left;
+    padding-left: 14px;
+}
+
+.delete_button span {
+    background-image: url("/img/delete.svg");
+    background-repeat: no-repeat;
+    background-position: left;
+    padding-left: 14px;
+}
+
+.add_client {
+    display: block;
+    margin: 0 auto;
+    padding: 14px 26px;
+    border: 1px solid #9873FF;
+    color: #9873FF;
+}
+
+.button_text {
+    background-image: url("/img/add_client.svg");
+    background-repeat: no-repeat;
+    background-position: center left;
+    font-weight: 600;
+    line-height: 19px;
+    font-size: 14px;
+    padding-left: 32px;
+}
+
+.modal_background {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: rgba(51, 51, 51, 0.6);
+}
+
+.modal_background_active {
+    display: flex;
+}
+
+.modal_add_client {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 450px;
+    padding: 24px 30px;
+    background-color: #fff;
+}
+
+.modal_add_client h2 {
+    font-size: 18px;
+    line-height: 24px;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 32px;
+}
+
+.input_add_client {
+    margin-bottom: 32px;
+    border: none;
+    border-bottom: 1px solid rgba(200, 197, 209, 0.5);
+}
+
+.modal_delete_client {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 450px;
+    height: 215px;
+    background-color: #fff;
+    padding: 22px;
+}
+
+.title_delete_client {
+    font-size: 18px;
+    line-height: 25px;
+    font-weight: 700;
+    margin-bottom: 11px;
+}
+
+.text_delete_client {
+    font-size: 14px;
+    line-height: 19px;
+    font-weight: 400;
+    margin-bottom: 25px;
+    max-width: 275px;
+    text-align: center;
+}
+
+.button_delete_client {
+    padding: 12.5px 35px;
+    color: #fff;
+    font-size: 14px;
+    line-height: 19px;
+    font-weight: 600;
+    background-color: #9873FF;
+    margin-bottom: 5px;
+}
+
+.button_cancel_delete {
+    font-size: 12px;
+    line-height: 16px;
+    font-weight: 400;
+    border-bottom: 1px solid #000;
+}
+
+.contacts {
+    background-color: rgba(200, 197, 209, 0.3);
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    margin-bottom: 25px;
+}
+
+.button_contact {
+    padding: 8px 0;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 19px;
+}
+
+.button_contact span {
+    background-image: url("/img/modal_add_contact.svg");
+    background-repeat: no-repeat;
+    background-position: left center;
+    padding-left: 19px;
+}
+
+.button_add_client {
+    font-size: 14px;
+    line-height: 19px;
+    font-weight: 600;
+    color: #fff;
+    background-color: #9873FF;
+    padding: 12.5px 35px;
+    align-self: center;
+    margin-bottom: 5px;
+}
+
+.button_cancel {
+    font-size: 12px;
+    line-height: 16px;
+    font-weight: 400;
+    border-bottom: 1px solid #000;
+    align-self: center;
+}
+
+.close {
+    position: absolute;
+    top: 22px;
+    right: 22px;
+    width: 19px;
+    height: 19px;
+    background-image: url("/img/close.svg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+}
+
+.modal_remake_client {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 450px;
+    padding: 24px 30px;
+    background-color: #fff;
+}
+
+.modal_remake_client h2 {
+    align-self: flex-start;
+    font-size: 18px;
+    line-height: 24px;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 32px;
+}
+
+.button_remake_client {
+    font-size: 14px;
+    line-height: 19px;
+    font-weight: 600;
+    color: #fff;
+    background-color: #9873FF;
+    padding: 12.5px 35px;
+    align-self: center;
+    margin-bottom: 5px;
+}
+
+#idClientForRemake {
+    position: absolute;
+    font-size: 12px;
+    line-height: 16px;
+    font-weight: 400;
+    color: #B0B0B0;
+    left: 50%;
+    top: 8%;
+}
+
+.modal_background_remake {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: rgba(51, 51, 51, 0.6);
+}
+
+.input_remake_client {
+    margin-bottom: 32px;
+    border: none;
+    border-bottom: 1px solid rgba(200, 197, 209, 0.5);
+}
+
+.button_delete {
+    font-size: 12px;
+    line-height: 16px;
+    font-weight: 400;
+    border-bottom: 1px solid #000;
+    align-self: center;
+}
+
+.contact {
+    display: flex;
+    margin-bottom: 15px;
+}
+
+.select {
+    height: 37px;
+    background-color: #E7E5EB;
+    border: 1px solid #C8C5D1;
+    max-width: 123px;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 16px;
+    color: #333;
+    padding: 10px 12px;
+}
+
+.input_contacts {
+    height: 37px;
+    width: 259px;
+    display: block;
+    border: 1px solid #C8C5D1;
+    background-color: transparent;
+}
+
+.delete_contacts {
+    background-color: #E7E5EB;
+    height: 37px;
+    width: 27px;
+    background-image: url('/img/contacts_delete.svg');
+    background-repeat: no-repeat;
+    background-position: center center;
+    border: 1px solid #C8C5D1;
+}
+
+.client_contacts {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 10px 0;
+    max-width: 160px;
+}
+
+.span_contacts {
+    margin-right: 7px;
+    width: 20px;
+    height: 20px;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    cursor: pointer;
+}
+
+.span_contacts:nth-child(5n) {
+    margin-bottom: 7px;
+}
+
+.vk {
+    background-image: url('/img/contacts_vk.svg');
+}
+
+.facebook {
+    background-image: url('/img/contacts_facebook.svg');
+}
+
+.email {
+    background-image: url('/img/contacts_mail.svg');
+}
+
+.telephone {
+    background-image: url('/img/contacts_telephone.svg');
+}
+
+.another {
+    background-image: url('/img/contacts_human.svg');
+}
