@@ -100,7 +100,7 @@ h1 {
     margin-bottom: 40px;
 }
 
-.table thead tr th{
+.table thead tr th {
     font-weight: 400;
     color: #B0B0B0;
     font-size: 12px;
@@ -121,8 +121,40 @@ tbody tr th {
     text-align: left;
 }
 
+tbody tr th span {
+    padding-right: 20px;
+}
+
+.table thead tr th span {
+    background-position: center right;
+    background-repeat: no-repeat;
+    background-image: url('/img/arrow_up.svg');
+    padding-right: 15px;
+}
+
+.sort_active {
+    color: #9873FF;
+}
+
+.arrow_down {
+    background-image: url('/img/arrow_down.svg') !important;
+}
+
 .id {
     padding-left: 20px;
+    cursor: pointer;
+}
+
+.name {
+    cursor: pointer;
+}
+
+.date_of_create {
+    cursor: pointer;
+}
+
+.date_of_change {
+    cursor: pointer;
 }
 
 .client_id {

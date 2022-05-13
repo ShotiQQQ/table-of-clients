@@ -57,14 +57,81 @@ document.addEventListener('DOMContentLoaded', async () => {
             document.createElement('th'),
         ];
 
-        listOfTheadRows[0].textContent = 'ID';
-        listOfTheadRows[1].textContent = 'Фамилия Имя Отчество';
-        listOfTheadRows[2].textContent = 'Дата и время создания';
-        listOfTheadRows[3].textContent = 'Последние изменения';
+        listOfSpan = [
+            document.createElement('span'),
+            document.createElement('span'),
+            document.createElement('span'),
+            document.createElement('span')
+        ]
+
+        listOfTheadRows[0].append(listOfSpan[0]);
+        listOfTheadRows[1].append(listOfSpan[1]);
+        listOfTheadRows[2].append(listOfSpan[2]);
+        listOfTheadRows[3].append(listOfSpan[3]);
+
+        listOfSpan[0].classList.add('id');
+        listOfSpan[1].classList.add('name');
+        listOfSpan[2].classList.add('date_of_create');
+        listOfSpan[3].classList.add('date_of_change');
+
+        listOfSpan[0].textContent = 'ID';
+        listOfSpan[1].textContent = 'Фамилия Имя Отчество';
+        listOfSpan[2].textContent = 'Дата и время создания';
+        listOfSpan[3].textContent = 'Последние изменения';
         listOfTheadRows[4].textContent = 'Контакты';
         listOfTheadRows[5].textContent = 'Действия';
 
-        listOfTheadRows[0].classList.add('id');
+        listOfSpan[0].addEventListener('click', () => {
+            deleteTable();
+            if (sortedIdIsUp === true) {
+                sortByIdDown();
+                listOfSpan[0].classList.add('arrow_down', 'sort_active');
+                sortedIdIsUp = false;
+            } else if (sortedIdIsUp === false) {
+                sortByIdUp();
+                listOfSpan[0].classList.add('sort_active');
+                sortedIdIsUp = true;
+            }
+        })
+
+        listOfSpan[1].addEventListener('click', () => {
+            deleteTable();
+            if (sortedNameIsUp === true) {
+                sortByNameDown();
+                listOfSpan[1].classList.add('arrow_down', 'sort_active');
+                sortedNameIsUp = false;
+            } else if (sortedNameIsUp === false) {
+                sortByNameUp();
+                listOfSpan[1].classList.add('sort_active');
+                sortedNameIsUp = true;
+            }
+        })
+
+        listOfSpan[2].addEventListener('click', () => {
+            deleteTable();
+            if (sortedMakeUp === true) {
+                sortByMakeDown();
+                listOfSpan[2].classList.add('arrow_down', 'sort_active');
+                sortedMakeUp = false;
+            } else if (sortedMakeUp === false) {
+                sortByMakeUp();
+                listOfSpan[2].classList.add('sort_active');
+                sortedMakeUp = true;
+            }
+        })
+
+        listOfSpan[3].addEventListener('click', () => {
+            deleteTable();
+            if (sortedChangeUp === true) {
+                sortByChangeDown();
+                listOfSpan[3].classList.add('arrow_down', 'sort_active');
+                sortedChangeUp = false;
+            } else if (sortedChangeUp === false) {
+                sortByChangeUp();
+                listOfSpan[3].classList.add('sort_active');
+                sortedChangeUp = true;
+            }
+        })
 
         table.classList.add('table');
 
@@ -628,7 +695,86 @@ document.addEventListener('DOMContentLoaded', async () => {
         document.querySelector('.main').remove();
     }
 
+    let sortedIdIsUp = true;
+    let sortedNameIsUp = true;
+    let sortedMakeUp = true;
+    let sortedChangeUp = true;
 
+    function sortByIdUp() {
+        listOfClients.sort((a, b) => a.id - b.id);
+        makeTable(listOfClients);
+    }
+
+    function sortByIdDown() {
+        listOfClients.sort((a, b) => b.id - a.id);
+        makeTable(listOfClients);
+    }
+
+    function sortByNameUp() {
+        listOfClients.sort((a, b) => {
+            let nameOne = a.surname.toLowerCase() + a.name.toLowerCase() + a.lastName.toLowerCase();
+            let nameTwo = b.surname.toLowerCase() + b.name.toLowerCase() + b.lastName.toLowerCase()
+            if (nameOne < nameTwo) {
+                return -1
+            } else if (nameOne > nameTwo) {
+                return 1
+            } else {
+                return 0
+            }
+        })
+        makeTable(listOfClients);
+    }
+
+    function sortByNameDown() {
+        listOfClients.sort((a, b) => {
+            let nameOne = a.surname.toLowerCase() + a.name.toLowerCase() + a.lastName.toLowerCase();
+            let nameTwo = b.surname.toLowerCase() + b.name.toLowerCase() + b.lastName.toLowerCase()
+            if (nameOne < nameTwo) {
+                return 1
+            } else if (nameOne > nameTwo) {
+                return -1
+            } else {
+                return 0
+            }
+        })
+        makeTable(listOfClients);
+    }
+
+    function sortByMakeUp() {
+        listOfClients.sort(function(a, b) {
+            let dateOne = new Date(a.createdAt);
+            let dateTwo = new Date(b.createdAt);
+            return dateOne - dateTwo //сортировка по возрастающей дате
+            })
+            makeTable(listOfClients);
+    }
+
+    function sortByMakeDown() {
+        listOfClients.sort(function(a, b) {
+            let dateOne = new Date(a.createdAt);
+            let dateTwo = new Date(b.createdAt);
+            return dateTwo - dateOne //сортировка по возрастающей дате
+            })
+            makeTable(listOfClients);
+    }
+
+    function sortByChangeUp() {
+        listOfClients.sort(function(a, b) {
+            let dateOne = new Date(a.updatedAt);
+            let dateTwo = new Date(b.updatedAt);
+            return dateOne - dateTwo //сортировка по возрастающей дате
+            })
+            makeTable(listOfClients);
+    }
+
+    function sortByChangeDown() {
+        listOfClients.sort(function(a, b) {
+            let dateOne = new Date(a.updatedAt);
+            let dateTwo = new Date(b.updatedAt);
+            return dateTwo - dateOne //сортировка по возрастающей дате
+            })
+            makeTable(listOfClients);
+    }
 
     makeHeader();
     let table = makeTable(listOfClients);
