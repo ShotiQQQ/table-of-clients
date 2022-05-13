@@ -744,7 +744,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         listOfClients.sort(function(a, b) {
             let dateOne = new Date(a.createdAt);
             let dateTwo = new Date(b.createdAt);
-            return dateOne - dateTwo //сортировка по возрастающей дате
+            return dateOne - dateTwo
             })
             makeTable(listOfClients);
     }
@@ -753,7 +753,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         listOfClients.sort(function(a, b) {
             let dateOne = new Date(a.createdAt);
             let dateTwo = new Date(b.createdAt);
-            return dateTwo - dateOne //сортировка по возрастающей дате
+            return dateTwo - dateOne
             })
             makeTable(listOfClients);
     }
@@ -762,7 +762,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         listOfClients.sort(function(a, b) {
             let dateOne = new Date(a.updatedAt);
             let dateTwo = new Date(b.updatedAt);
-            return dateOne - dateTwo //сортировка по возрастающей дате
+            return dateOne - dateTwo
             })
             makeTable(listOfClients);
     }
@@ -771,7 +771,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         listOfClients.sort(function(a, b) {
             let dateOne = new Date(a.updatedAt);
             let dateTwo = new Date(b.updatedAt);
-            return dateTwo - dateOne //сортировка по возрастающей дате
+            return dateTwo - dateOne
             })
             makeTable(listOfClients);
     }
