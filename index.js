@@ -283,9 +283,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         })
 
         document.querySelectorAll('.change_button').forEach((button) => {
-            button.addEventListener('click', (e) => {
+            button.addEventListener('click', async (e) => {
                 let clientForRemake = e.composedPath()[4].childNodes[0].textContent;
-                makeModalRemakeClient(clientForRemake);
+                await makeModalRemakeClient(clientForRemake);
                 document.querySelector('.button_remake_client').addEventListener('click', () => {
                     remakeClient(clientForRemake);
                     clientForRemake = '';
@@ -330,7 +330,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
             listOfContacts.push(forList);
         }
-        await fetch(`http://localhost:3000/api/clients/${clientForRemake}`, {
+        let response = await fetch(`http://localhost:3000/api/clients/${clientForRemake}`, {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json'
@@ -342,6 +342,17 @@ document.addEventListener('DOMContentLoaded', async () => {
                 contacts: listOfContacts,
             })
         });
+
+        if (response.status === 422) {
+            let dataOfError = await response.json();
+            if (dataOfError.errors.length === 1) {
+                alert(`${dataOfError.errors[0].message}`)
+            } else if (dataOfError.errors.length === 2) {
+                alert(`${dataOfError.errors[0].message}, ${dataOfError.errors[1].message}`)
+            }
+            
+        }
+
         clearInputs();
         deleteModalRemake();
         listOfClients = await getClients();
@@ -434,6 +445,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 options[4].value = 'another';
 
                 deleteContacts.addEventListener('click', (e) => {
+                    buttonContact.classList.remove('contact_add_hide');
                     e.composedPath()[1].remove();
                     countForContacts-=1;
                 })
@@ -447,6 +459,9 @@ document.addEventListener('DOMContentLoaded', async () => {
 
                 contacts.prepend(contact);
                 countForContacts+=1;
+            }
+            if (countForContacts > 9) {
+                buttonContact.classList.add('contact_add_hide');
             }
         })
 
@@ -488,7 +503,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 }
                 listOfContacts.push(forList);
             }
-            fetch(`http://localhost:3000/api/clients`, {
+            let response = await fetch(`http://localhost:3000/api/clients`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -500,6 +515,17 @@ document.addEventListener('DOMContentLoaded', async () => {
                     contacts: listOfContacts,
                 })
             });
+
+            if (response.status === 422) {
+                let dataOfError = await response.json();
+                if (dataOfError.errors.length === 1) {
+                    alert(`${dataOfError.errors[0].message}`)
+                } else if (dataOfError.errors.length === 2) {
+                    alert(`${dataOfError.errors[0].message}, ${dataOfError.errors[1].message}`)
+                }
+                return
+            }
+            
             clearInputs();
             document.querySelector('#modal_add').classList.toggle('modal_background_active');
             listOfClients = await getClients();
@@ -508,7 +534,10 @@ document.addEventListener('DOMContentLoaded', async () => {
         })
     }
 
-    function makeModalRemakeClient(clientForRemake) {
+    async function makeModalRemakeClient(clientForRemake) {
+        const client = await fetch(`http://localhost:3000/api/clients/${clientForRemake}`);
+        const dataOfClient = await client.json();
+
         const modalBackground = document.createElement('div');
         const modal = document.createElement('div');
         const h2 = document.createElement('h2');
@@ -539,6 +568,10 @@ document.addEventListener('DOMContentLoaded', async () => {
         listOfInput[1].placeholder = 'Имя*';
         listOfInput[2].placeholder = 'Отчество';
 
+        listOfInput[0].value = `${dataOfClient.surname}`;
+        listOfInput[1].value = `${dataOfClient.name}`;
+        listOfInput[2].value = `${dataOfClient.lastName}`;
+
         listOfInput[0].classList.add('input_remake_client');
         listOfInput[1].classList.add('input_remake_client');
         listOfInput[2].classList.add('input_remake_client');
@@ -550,6 +583,65 @@ document.addEventListener('DOMContentLoaded', async () => {
         span.textContent = 'Добавить контакт';
 
         let countForContacts = 0;
+
+        if (dataOfClient.contacts.length) {
+            for (contactClient of dataOfClient.contacts) {
+                const contactBlock = document.createElement('div');
+                const select = document.createElement('select');
+                const options = [
+                    document.createElement('option'),
+                    document.createElement('option'),
+                    document.createElement('option'),
+                    document.createElement('option'),
+                    document.createElement('option')
+                ];
+                const inputContacts = document.createElement('input');
+                const deleteContacts = document.createElement('button');
+
+                contactBlock.classList.add('contact');
+                select.classList.add('select');
+                select.value = `${contactClient.type}`
+                inputContacts.classList.add('input_contacts');
+                inputContacts.value = `${contactClient.value}`;
+                deleteContacts.classList.add('btn-reset', 'delete_contacts');
+
+                options[0].textContent = 'Телефон';
+                options[0].value = 'Телефон';
+                options[1].textContent = 'VK';
+                options[1].value = 'VK';
+                options[2].textContent = 'Facebook';
+                options[2].value = 'Facebook';
+                options[3].textContent = 'Email';
+                options[3].value = 'Email';
+                options[4].textContent = 'Другое';
+                options[4].value = 'another';
+
+                for (i = 0; i < options.length; i++) {
+                    options[i].selected = false;
+                    if(options[i].value === contactClient.type) {
+                        options[i].selected = true;
+                    }
+                }
+
+                deleteContacts.addEventListener('click', (e) => {
+                    buttonContact.classList.remove('contact_add_hide');
+                    e.composedPath()[1].remove();
+                    countForContacts-=1;
+                })
+
+                buttonSave.addEventListener('click', () => {
+                    contact.remove();
+                })
+
+                select.append(options[0], options[1], options[2], options[3], options[4]);
+                contactBlock.append(select, inputContacts, deleteContacts);
+
+                contacts.prepend(contactBlock);
+                countForContacts+=1;
+
+                console.log(select.options[0])
+            }
+        }
 
         buttonContact.addEventListener('click', function () {
             if (countForContacts <= 9) {
@@ -582,6 +674,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 options[4].value = 'another';
 
                 deleteContacts.addEventListener('click', (e) => {
+                    buttonContact.classList.remove('contact_add_hide');
                     e.composedPath()[1].remove();
                     countForContacts-=1;
                 })
@@ -595,6 +688,10 @@ document.addEventListener('DOMContentLoaded', async () => {
 
                 contacts.prepend(contact);
                 countForContacts+=1;
+
+                if (countForContacts > 9) {
+                    buttonContact.classList.add('contact_add_hide');
+                }
             }
         })
 
@@ -744,7 +841,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         listOfClients.sort(function(a, b) {
             let dateOne = new Date(a.createdAt);
             let dateTwo = new Date(b.createdAt);
-            return dateOne - dateTwo //сортировка по возрастающей дате
+            return dateOne - dateTwo
             })
             makeTable(listOfClients);
     }
@@ -753,7 +850,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         listOfClients.sort(function(a, b) {
             let dateOne = new Date(a.createdAt);
             let dateTwo = new Date(b.createdAt);
-            return dateTwo - dateOne //сортировка по возрастающей дате
+            return dateTwo - dateOne
             })
             makeTable(listOfClients);
     }
@@ -762,7 +859,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         listOfClients.sort(function(a, b) {
             let dateOne = new Date(a.updatedAt);
             let dateTwo = new Date(b.updatedAt);
-            return dateOne - dateTwo //сортировка по возрастающей дате
+            return dateOne - dateTwo
             })
             makeTable(listOfClients);
     }
@@ -771,7 +868,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         listOfClients.sort(function(a, b) {
             let dateOne = new Date(a.updatedAt);
             let dateTwo = new Date(b.updatedAt);
-            return dateTwo - dateOne //сортировка по возрастающей дате
+            return dateTwo - dateOne
             })
             makeTable(listOfClients);
     }

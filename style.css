@@ -393,7 +393,7 @@ tbody tr th span {
     font-weight: 400;
     color: #B0B0B0;
     left: 50%;
-    top: 8%;
+    top: 30px;
 }
 
 .modal_background_remake {
@@ -472,6 +472,10 @@ tbody tr th span {
     background-repeat: no-repeat;
     background-size: cover;
     cursor: pointer;
+}
+
+.contact_add_hide {
+    display: none;
 }
 
 .span_contacts:nth-child(5n) {
