@@ -501,3 +501,43 @@ tbody tr th span {
 .another {
     background-image: url('/img/contacts_human.svg');
 }
+
+.span_contacts {
+    position: relative;
+    transition: opacity .3s, visibility .3s;
+}
+
+.span_contacts:hover::after,
+.span_contacts:hover::before {
+    visibility: visible;
+    opacity: 1;
+}
+
+.span_contacts::before {
+    content: attr(data-text);
+    position: absolute;
+    background-color: #333;
+    color: #fff;
+    padding: 7px 17px;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 16px;
+    visibility: hidden;
+    opacity: 0;
+    bottom: calc(100% + 15px);
+    transform: translateX(calc(-50% + 10px));
+}
+
+.span_contacts::after {
+    content: "";
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 10px 5px 0 5px;
+    border-color: #333333 transparent transparent transparent;
+    visibility: hidden;
+    opacity: 0;
+    bottom: calc(100% + 5px);
+    transform: translateX(calc(50% - 1px));
+}

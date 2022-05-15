@@ -14,7 +14,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         const logo = document.createElement('img');
         const inputSearch = document.createElement('input');
 
-
         header.classList.add('header');
 
         logoLink.href = 'index.html';
@@ -253,9 +252,14 @@ document.addEventListener('DOMContentLoaded', async () => {
                 } else {
                     contactsSpan.classList.add('another');
                 }
+
+                contactsSpan.setAttribute('data-text', `${contact.type}:\u00A0${contact.value}`);
+
                 listOfTbodyRows[4].append(contactsSpan);
             })
             listOfTbodyRows[5].append(groupButton);
+
+
 
             listOfTbodyRows[0].classList.add('client_id');
             listOfTbodyRows[1].classList.add('client_full_name');
@@ -280,6 +284,10 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         document.querySelector('#add_client').addEventListener('click', () => {
             document.querySelector('#modal_add').classList.toggle('modal_background_active');
+        })
+
+        document.querySelectorAll('.span_contacts').forEach((span) => {
+            console.log(span)
         })
 
         document.querySelectorAll('.change_button').forEach((button) => {
