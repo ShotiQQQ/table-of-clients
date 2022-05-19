@@ -50,10 +50,11 @@ img {
 }
 
 .container {
-    max-width: 1150px;
+    max-width: 1406px;
     padding: 0;
     padding-left: 20px;
     padding-right: 20px;
+    margin: 0 auto;
 }
 
 input::-webkit-input-placeholder {
@@ -67,7 +68,11 @@ input::-moz-placeholder {
 /* ----------------------------------------------------------- */
 .header {
     background-color: #fff;
-    padding: 20px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.header .container {
     display: flex;
 }
 
@@ -86,7 +91,7 @@ input::-moz-placeholder {
 }
 
 .main {
-    padding: 40px 90px;
+    padding: 40px 0;
 }
 
 h1 {
@@ -189,11 +194,27 @@ tbody tr th span {
     font-weight: 400;
 }
 
+.change_button {
+    transition: color .3s;
+}
+
+.change_button:hover {
+    color: #9873FF;
+}
+
 .change_button span {
     background-image: url("/img/edit.svg");
     background-repeat: no-repeat;
     background-position: left;
     padding-left: 14px;
+}
+
+.delete_button {
+    transition: color .3s;
+}
+
+.delete_button:hover {
+    color: #F06A4D;
 }
 
 .delete_button span {
@@ -209,6 +230,22 @@ tbody tr th span {
     padding: 14px 26px;
     border: 1px solid #9873FF;
     color: #9873FF;
+    transition: color .3s, background-color .3s;
+}
+
+.add_client:hover {
+    background-color: #B89EFF;
+    color: #fff;
+}
+
+.add_client:focus {
+    background-color: #8052FF;
+    color: #fff;
+}
+
+.add_client:active {
+    background-color: #C8C5D1;
+    color: #fff;
 }
 
 .button_text {
@@ -295,6 +332,22 @@ tbody tr th span {
     font-weight: 600;
     background-color: #9873FF;
     margin-bottom: 5px;
+    transition: color .3s, background-color .3s;
+}
+
+.button_delete_client:hover {
+    background-color: #B89EFF;
+    color: #fff;
+}
+
+.button_delete_client:focus {
+    background-color: #8052FF;
+    color: #fff;
+}
+
+.button_delete_client:active {
+    background-color: #C8C5D1;
+    color: #fff;
 }
 
 .button_cancel_delete {
@@ -319,11 +372,16 @@ tbody tr th span {
     line-height: 19px;
 }
 
+.button_contact:hover span {
+    color: #9873FF;
+}
+
 .button_contact span {
     background-image: url("/img/modal_add_contact.svg");
     background-repeat: no-repeat;
     background-position: left center;
     padding-left: 19px;
+    transition: color .3s;
 }
 
 .button_add_client {
@@ -335,6 +393,22 @@ tbody tr th span {
     padding: 12.5px 35px;
     align-self: center;
     margin-bottom: 5px;
+    transition: color .3s, background-color .3s;
+}
+
+.button_add_client:hover {
+    background-color: #B89EFF;
+    color: #fff;
+}
+
+.button_add_client:focus {
+    background-color: #8052FF;
+    color: #fff;
+}
+
+.button_add_client:active {
+    background-color: #C8C5D1;
+    color: #fff;
 }
 
 .button_cancel {
@@ -455,6 +529,12 @@ tbody tr th span {
     background-repeat: no-repeat;
     background-position: center center;
     border: 1px solid #C8C5D1;
+    transition: border-color .3s, background-image .2s;
+}
+
+.delete_contacts:hover {
+    border-color: #F06A4D;
+    background-image: url('/img/contacts_delete_hover.svg');
 }
 
 .client_contacts {
@@ -526,6 +606,7 @@ tbody tr th span {
     opacity: 0;
     bottom: calc(100% + 15px);
     transform: translateX(calc(-50% + 10px));
+    transition: visibility .4s, opacity .4s;
 }
 
 .span_contacts::after {
@@ -540,4 +621,9 @@ tbody tr th span {
     opacity: 0;
     bottom: calc(100% + 5px);
     transform: translateX(calc(50% - 1px));
+    transition: visibility .4s, opacity .4s;
+}
+
+.just-validate-error-label[data-tooltip=true] {
+    font-size: 14px;
 }

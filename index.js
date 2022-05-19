@@ -10,11 +10,14 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     function makeHeader() {
         const header = document.createElement('div');
+        const container = document.createElement('div');
         const logoLink = document.createElement('a');
         const logo = document.createElement('img');
         const inputSearch = document.createElement('input');
 
         header.classList.add('header');
+
+        container.classList.add('container');
 
         logoLink.href = 'index.html';
 
@@ -25,12 +28,14 @@ document.addEventListener('DOMContentLoaded', async () => {
         inputSearch.placeholder = 'Введите запрос';
 
         document.body.append(header);
-        header.append(logoLink, inputSearch);
+        header.append(container);
+        container.append(logoLink, inputSearch);
         logoLink.append(logo);
     }
 
     function makeTable(listOfClients) {
         const main = document.createElement('div');
+        const container = document.createElement('div');
         const h1 = document.createElement('h1');
         const table = document.createElement('table');
         const thead = document.createElement('thead');
@@ -38,6 +43,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         const tbody = document.createElement('tbody');
         const button = document.createElement('button');
         const span = document.createElement('span');
+
+        container.classList.add('container');
 
         button.classList.add('btn-reset', 'add_client');
         button.id = 'add_client';
@@ -139,7 +146,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         h1.textContent = 'Клиенты';
 
         document.body.append(main);
-        main.append(h1, table, button);
+        main.append(container);
+        container.append(h1, table, button);
         table.append(thead, tbody);
         thead.append(theadRow);
         theadRow.append(listOfTheadRows[0], listOfTheadRows[1], listOfTheadRows[2], listOfTheadRows[3], listOfTheadRows[4], listOfTheadRows[5]);
@@ -286,10 +294,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             document.querySelector('#modal_add').classList.toggle('modal_background_active');
         })
 
-        document.querySelectorAll('.span_contacts').forEach((span) => {
-            console.log(span)
-        })
-
         document.querySelectorAll('.change_button').forEach((button) => {
             button.addEventListener('click', async (e) => {
                 let clientForRemake = e.composedPath()[4].childNodes[0].textContent;
@@ -352,13 +356,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
 
         if (response.status === 422) {
-            let dataOfError = await response.json();
-            if (dataOfError.errors.length === 1) {
-                alert(`${dataOfError.errors[0].message}`)
-            } else if (dataOfError.errors.length === 2) {
-                alert(`${dataOfError.errors[0].message}, ${dataOfError.errors[1].message}`)
-            }
-            
+            return
         }
 
         clearInputs();
@@ -370,7 +368,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     function makeModalAddClient() {
         const modalBackground = document.createElement('div');
-        const modal = document.createElement('div');
+        const modal = document.createElement('form');
         const h2 = document.createElement('h2');
         const listOfInput = [
             document.createElement('input'),
@@ -388,6 +386,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         modalBackground.id = 'modal_add';
 
         modal.classList.add('modal_add_client');
+        modal.id = 'modal_add_client';
 
         h2.textContent = 'Новый клиент';
 
@@ -398,6 +397,10 @@ document.addEventListener('DOMContentLoaded', async () => {
         listOfInput[0].classList.add('input_add_client');
         listOfInput[1].classList.add('input_add_client');
         listOfInput[2].classList.add('input_add_client');
+
+        listOfInput[0].id = 'surname';
+        listOfInput[1].id = 'name';
+        listOfInput[2].id = 'last_name';
 
         contacts.append(buttonContact);
         contacts.classList.add('contacts');
@@ -497,6 +500,61 @@ document.addEventListener('DOMContentLoaded', async () => {
                 })
             }
         })
+
+        const validation = new JustValidate('#modal_add_client',
+        {
+            errorFieldCssClass: 'is-invalid',
+            errorLabelCssClass: 'is-label-invalid',
+            focusInvalidField: true,
+            lockForm: true,
+            tooltip: {
+            position: 'top',
+            },
+        }
+        );
+
+        validation
+            .addField('#surname', [
+                {
+                    rule: 'required',
+                    errorMessage: 'Фамилия обязательна к заполнению',
+                },
+                {
+                rule: 'minLength',
+                value: 0,
+                },
+                {
+                rule: 'maxLength',
+                value: 30,
+                errorMessage: 'Максимум 30 символов'
+                },
+            ])
+            .addField('#name', [
+                {
+                    rule: 'required',
+                    errorMessage: 'Имя обязательно к заполнению',
+                },
+                {
+                rule: 'minLength',
+                value: 0,
+                },
+                {
+                rule: 'maxLength',
+                value: 30,
+                errorMessage: 'Максимум 30 символов'
+                },
+            ])
+            .addField('#last_name', [
+                {
+                rule: 'minLength',
+                value: 0,
+                },
+                {
+                rule: 'maxLength',
+                value: 30,
+                errorMessage: 'Максимум 30 символов'
+                },
+            ]);
     }
 
     async function addClient() {
@@ -525,12 +583,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             });
 
             if (response.status === 422) {
-                let dataOfError = await response.json();
-                if (dataOfError.errors.length === 1) {
-                    alert(`${dataOfError.errors[0].message}`)
-                } else if (dataOfError.errors.length === 2) {
-                    alert(`${dataOfError.errors[0].message}, ${dataOfError.errors[1].message}`)
-                }
                 return
             }
             
@@ -547,7 +599,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         const dataOfClient = await client.json();
 
         const modalBackground = document.createElement('div');
-        const modal = document.createElement('div');
+        const modal = document.createElement('form');
         const h2 = document.createElement('h2');
         const spanId = document.createElement('span');
         const listOfInput = [
@@ -566,6 +618,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         modalBackground.id = 'modal_remake';
 
         modal.classList.add('modal_remake_client');
+        modal.id = 'modal_remake_client';
 
         h2.textContent = 'Изменить данные';
 
@@ -583,6 +636,10 @@ document.addEventListener('DOMContentLoaded', async () => {
         listOfInput[0].classList.add('input_remake_client');
         listOfInput[1].classList.add('input_remake_client');
         listOfInput[2].classList.add('input_remake_client');
+
+        listOfInput[0].id = 'surname_remake';
+        listOfInput[1].id = 'name_remake';
+        listOfInput[2].id = 'last_name_remake';
 
         contacts.append(buttonContact);
         contacts.classList.add('contacts');
@@ -646,8 +703,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
                 contacts.prepend(contactBlock);
                 countForContacts+=1;
-
-                console.log(select.options[0])
             }
         }
 
@@ -735,6 +790,61 @@ document.addEventListener('DOMContentLoaded', async () => {
                 deleteModalRemake();
             }
         })
+
+        const validate_2 = new JustValidate('#modal_remake_client',
+        {
+            errorFieldCssClass: 'is-invalid',
+            errorLabelCssClass: 'is-label-invalid',
+            focusInvalidField: true,
+            lockForm: true,
+            tooltip: {
+            position: 'top',
+            },
+        }
+        );
+
+        validate_2
+            .addField('#surname_remake', [
+                {
+                    rule: 'required',
+                    errorMessage: 'Фамилия обязательна к заполнению',
+                },
+                {
+                rule: 'minLength',
+                value: 0,
+                },
+                {
+                rule: 'maxLength',
+                value: 30,
+                errorMessage: 'Максимум 30 символов'
+                },
+            ])
+            .addField('#name_remake', [
+                {
+                    rule: 'required',
+                    errorMessage: 'Имя обязательно к заполнению',
+                },
+                {
+                rule: 'minLength',
+                value: 0,
+                },
+                {
+                rule: 'maxLength',
+                value: 30,
+                errorMessage: 'Максимум 30 символов'
+                },
+            ])
+            .addField('#last_name_remake', [
+                {
+                rule: 'minLength',
+                value: 0,
+                },
+                {
+                rule: 'maxLength',
+                value: 30,
+                errorMessage: 'Максимум 30 символов'
+                },
+            ]);
     }
 
     function deleteModalRemake() {
